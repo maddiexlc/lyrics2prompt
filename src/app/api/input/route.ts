@@ -15,6 +15,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
+    const startTime = Date.now();
+
     const openaiResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -31,6 +33,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         },
       }
     );
+
+    const endTime = Date.now();
+    console.log(`OpenAI API call took ${endTime - startTime}ms`);
 
     const responseText = openaiResponse.data.choices[0]?.message.content.trim();
     return NextResponse.json({ response: responseText }, { status: 200 });

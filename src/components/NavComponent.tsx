@@ -14,18 +14,22 @@ export default function NavComponent() {
           <img src="/logo2.png" alt="Logo" className="h-8 w-auto" />
         </Link>
         <div>
-          {session?(<button
-            onClick={() => signOut()}
-            className="text-white hover:underline"
-          >
-            Sign Out
-          </button>):(<button
-            onClick={() => signIn()}
-            className="text-white hover:underline"
-          >
-            Sign in
-          </button>)}
-          
+          {session ? (
+            <button
+              onClick={() => signOut()}
+              className="text-white hover:underline"
+            >
+              <div>{user.name}</div>
+              Sign Out
+            </button>
+          ) : (
+            <button
+              onClick={() => signIn()}
+              className="text-white hover:underline"
+            >
+              Sign in
+            </button>
+          )}
         </div>
       </div>
     </nav>
