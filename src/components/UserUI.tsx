@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 function UserInputComponent() {
   const [userInput, setUserInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState("Waiting for response..");
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -19,32 +21,27 @@ function UserInputComponent() {
   };
 
   return (
-    <div className="flex flex-col items-center my-8">
-      <textarea
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        placeholder="Enter your input here..."
-        rows={4}
-        className="w-4/5 p-4 border border-gray-300 rounded-md resize-y text-red-600" // Added text-red-600 for red text color
-      />
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        Submit
-      </button>
-
-      <div className="flex flex-col items-center mt-8 mb-4">
-        <label className="mb-2 text-xl font-semibold text-gray-600">
-          AI Output:
-        </label>
-        <div className="w-4/5 p-4 border border-gray-300 rounded-md bg-gray-100 text-red-600">
-          {" "}
-          {/* Added text-red-600 for red text color */}
-          {output || "Waiting for input..."}
-        </div>
+    <main className="flex-1 grid gap-4 p-4 md:gap-8 md:p-10 grid-cols-1 items-end">
+      <div className="rounded-lg border border-[#00f5a0] p-4">
+        <p className="text-lg">{output}</p>
       </div>
-    </div>
+      <form className="flex gap-2">
+        <Input
+          className="flex-grow rounded-lg border border-[#00f5a0] p-2"
+          placeholder="Type your message here..."
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+        />
+        <Button
+          className="border-[#00f5a0] text-[#00f5a0]"
+          variant="secondary"
+          onClick={handleSubmit}
+        >
+          Send
+        </Button>
+      </form>
+    </main>
   );
 }
 
