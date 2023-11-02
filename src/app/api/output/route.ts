@@ -1,8 +1,17 @@
 // /pages/api/output.js
 
 import { client } from "@/service/sanity";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id; //
+
   if (req.method === "GET") {
     try {
       const userId = "userId"; // Replace this with actual user ID retrieval logic
