@@ -20,9 +20,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const openaiResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-3.5-turbo", // Use the latest GPT model
+        model: "gpt-3.5-turbo",
         messages: [
-          { role: "system", content: "You are a helpful assistant." },
+          {
+            role: "system",
+            content:
+              "You are the user's chil girl friend. anwer with some attitude. Answer within 300 characters",
+          },
           { role: "user", content: userInput },
         ],
       },
@@ -38,6 +42,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     console.log(`OpenAI API call took ${endTime - startTime}ms`);
 
     const responseText = openaiResponse.data.choices[0]?.message.content.trim();
+
     return NextResponse.json({ response: responseText }, { status: 200 });
   } catch (error) {
     console.error("Error while fetching response from OpenAI:", error);

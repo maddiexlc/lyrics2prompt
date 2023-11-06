@@ -29,16 +29,16 @@ export default function NavComponent() {
             <path d="M21 12.1H3" />
             <path d="M15.1 18H3" />
           </svg>
-          <span className="text-2xl font-bold">ChatBot</span>
+          <span className="text-2xl font-bold">ChatBox</span>
         </Link>
         {session ? (
           <Button
-            className="border-[#00f5a0] text-[#00f5a0]"
+            className="border-[#00f5a0] text-[#00f5a0] flex items-center"
             variant="secondary"
             onClick={() => signOut()}
           >
-            <div>{user?.name}</div>
-            Log out
+            <span className="text-blue-500 mr-1">{user?.name}</span>
+            <span className="text-red-500">Log out</span>{" "}
           </Button>
         ) : (
           <Button

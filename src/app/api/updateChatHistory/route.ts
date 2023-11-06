@@ -1,40 +1,34 @@
-// /pages/api/updateChatHistory.js
 import { client } from "@/service/sanity";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id; //
+  const userId = session?.user?.name; //
 
-  if (req.method === "POST") {
-    try {
-      const userId = "userId"; // Replace this with actual user ID retrieval logic
-      const { newChat } = req.body;
+  try {
+    // const userId = "userId"; // Replace this with actual user ID retrieval logic
+    const rawData = await req.text();
+    const parsedBody = JSON.parse(rawData);
+    const { newChat } = parsedBody;
 
-      if (!newChat) {
-        return res.status(400).json({ error: "Invalid request body" });
-      }
-
-      const data = {
-        _type: "user",
-        _id: userId,
-        chat: newChat,
-      };
-
-      await client.createOrReplace(data);
-
-      res.status(200).json({ message: "Chat history updated" });
-    } catch (err) {
-      console.error("Error updating chat history:", err);
-      res.status(500).json({ error: "Internal Server Error" });
+    if (!newChat) {
+      return new Response("Invalid request body", { status: 400 });
     }
-  } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+
+    const data = {
+      _type: "user",
+      _id: userId,
+      name: userId,
+      chat: newChat,
+    };
+
+    await client.createOrReplace(data);
+
+    return new Response("Chat history updated", { status: 200 });
+  } catch (err) {
+    console.error("Error updating chat history:", err);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
